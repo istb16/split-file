@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "nZEEFqQsuCzY9OsZraNRc4tz/2W59bePQnFpPgI817AoHLRSVcMiDrhYNnTpM3ys6nGyGh62v/IC9tGj56bnHA==",
+  "success": true,
+  "projectFilePath": "C:\\Projects\\split-file\\split-file\\split-file.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\istb1\\.nuget\\packages\\microsoft-windowsapicodepack-core\\1.1.4\\microsoft-windowsapicodepack-core.1.1.4.nupkg.sha512",
+    "C:\\Users\\istb1\\.nuget\\packages\\microsoft-windowsapicodepack-shell\\1.1.4\\microsoft-windowsapicodepack-shell.1.1.4.nupkg.sha512"
+  ],
+  "logs": []
+}
