@@ -1,0 +1,10 @@
+version: 2
+updates:
+  - package-ecosystem: nuget
+    directory: /split-file
+    schedule:
+      interval: weekly
+    groups:
+      nuget-dependencies:
+        patterns: ['*']
+        update-types: [minor, patch]
