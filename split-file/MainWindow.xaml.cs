@@ -61,7 +61,7 @@ namespace split_file
                 return;
             }
             // 分割単位
-            if(!int.TryParse(tbDivNum.Text, out int divNum))
+            if(!int.TryParse(tbDivNum.Text, out int divNum) || divNum <= 0)
             {
                 MessageBox.Show("分割単位となる数が正しく入力されていません。");
                 return;
@@ -71,6 +71,7 @@ namespace split_file
             {
                 // 文字
                 case 0:
+                    DivFileChar(sourcePath, outFolderPath, divNum);
                     break;
                 // 行
                 case 1:
@@ -81,6 +82,45 @@ namespace split_file
             }
 
             MessageBox.Show("ファイル分割が完了しました。");
+        }
+
+        private void DivFileChar(string sourcePath, string outFolderPath, int divNum)
+        {
+            using (var sr = new StreamReader(sourcePath))
+            {
+                var buffer = new char[divNum];
+                var fidx = 0;
+                char? carry = null;
+                while (true)
+                {
+                    var len = 0;
+                    if (carry.HasValue)
+                    {
+                        buffer[len++] = carry.Value;
+                        carry = null;
+                    }
+                    while (len < divNum)
+                    {
+                        var read = sr.Read(buffer, len, divNum - len);
+                        if (read == 0) break;
+                        len += read;
+                    }
+                    if (len == 0) break;
+
+                    // サロゲートペアの途中で分割しない
+                    if (len == divNum && divNum > 1 && char.IsHighSurrogate(buffer[len - 1]))
+                    {
+                        carry = buffer[len - 1];
+                        len--;
+                    }
+
+                    fidx++;
+                    var outPath = System.IO.Path.Combine(
+                        outFolderPath,
+                        $"splited-{fidx}-{System.IO.Path.GetFileName(sourcePath)}");
+                    File.WriteAllText(outPath, new string(buffer, 0, len));
+                }
+            }
         }
 
         private void DivFileLine(string sourcePath, string outFolderPath, int divNum)
